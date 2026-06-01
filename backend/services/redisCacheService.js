@@ -1,83 +1,35 @@
-const { createClient } = require('redis');
+// redisCacheService.js
+// In-memory cache implementation to replace Redis for Vercel serverless functions and local environments.
 
-let redisClient = null;
-let redisConnectPromise = null;
-let hasLoggedRedisFailure = false;
-
-function getRedisUrl() {
-  return process.env.REDIS_URL || 'redis://127.0.0.1:6379';
-}
-
-async function getRedisClient() {
-  if (redisClient?.isOpen) {
-    return redisClient;
-  }
-
-  if (!redisClient) {
-    redisClient = createClient({ url: getRedisUrl() });
-
-    redisClient.on('error', (error) => {
-      if (!hasLoggedRedisFailure) {
-        hasLoggedRedisFailure = true;
-        console.warn('[redisCacheService] Redis unavailable, falling back to direct auth calls.', error.message);
-      }
-    });
-  }
-
-  if (!redisConnectPromise) {
-    redisConnectPromise = redisClient.connect().catch((error) => {
-      redisConnectPromise = null;
-      throw error;
-    });
-  }
-
-  try {
-    await redisConnectPromise;
-    hasLoggedRedisFailure = false;
-    return redisClient;
-  } catch (error) {
-    return null;
-  }
-}
+const cache = new Map();
 
 async function getJson(key) {
-  const client = await getRedisClient();
-
-  if (!client) {
+  const item = cache.get(key);
+  if (!item) {
     return null;
   }
 
-  try {
-    const value = await client.get(key);
-
-    return value ? JSON.parse(value) : null;
-  } catch (error) {
-    console.warn('[redisCacheService] Failed to read cached JSON value.', error.message);
+  // Check if the item has expired
+  if (item.expiresAt && Date.now() > item.expiresAt) {
+    cache.delete(key);
     return null;
   }
+
+  return item.value;
 }
 
 async function setJson(key, value, ttlSeconds) {
-  const client = await getRedisClient();
-
-  if (!client) {
-    return false;
+  let expiresAt = null;
+  if (Number.isFinite(ttlSeconds) && ttlSeconds > 0) {
+    expiresAt = Date.now() + (ttlSeconds * 1000);
   }
 
-  try {
-    const serializedValue = JSON.stringify(value);
+  cache.set(key, {
+    value,
+    expiresAt,
+  });
 
-    if (Number.isFinite(ttlSeconds) && ttlSeconds > 0) {
-      await client.set(key, serializedValue, { EX: Math.floor(ttlSeconds) });
-    } else {
-      await client.set(key, serializedValue);
-    }
-
-    return true;
-  } catch (error) {
-    console.warn('[redisCacheService] Failed to write cached JSON value.', error.message);
-    return false;
-  }
+  return true;
 }
 
 module.exports = {
