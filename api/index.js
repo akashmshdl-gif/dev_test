@@ -5,8 +5,11 @@ const backendRequire = createRequire(path.resolve(__dirname, '../backend/package
 
 backendRequire('dotenv').config({ path: path.resolve(__dirname, '../backend/.env') });
 
-const app = require('../backend/app');
-const { validateJwksConfig } = require('../backend/controllers/jwksController');
+const appModule = backendRequire('./app');
+const app = appModule.default || appModule;
+const jwksControllerModule = backendRequire('./controllers/jwksController');
+const { validateJwksConfig } =
+  jwksControllerModule.default || jwksControllerModule;
 
 let bootstrapPromise;
 
