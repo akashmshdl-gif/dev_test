@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=eligibilitycheck && npm run build --workspace=epic-smart-frontend"
+  }
+}

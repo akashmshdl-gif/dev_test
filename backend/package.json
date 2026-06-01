@@ -1,0 +1,53 @@
+{
+  "name": "eligibilitycheck",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node -e \"console.log('Backend build step complete')\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup:dev": "node scripts/ensure-dev-keys.js",
+    "dev": "nodemon server.js",
+    "generate-jwks": "node scripts/generate-jwks.js",
+    "generate-epic-jwks": "node scripts/generate-epic-jwks-bundle.js",
+    "db:create": "npx sequelize-cli db:create",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo:all",
+    "migrate:fresh": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.842.0",
+    "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "hl7": "^0.0.0",
+    "http-status": "^2.1.0",
+    "https": "^1.0.0",
+    "jose": "^6.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
+    "node-cron": "^4.2.0",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "redis": "^4.7.1",
+    "sequelize": "^6.37.8",
+    "ssh2-sftp-client": "^12.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^11.0.5",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "sequelize-cli": "^6.6.5"
+  }
+}

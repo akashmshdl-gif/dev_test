@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30,
+      "includeFiles": "backend/**/*"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/api-docs",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/api-docs/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/cds-hooks/cds-service",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/cds-hooks/cds-service/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/cds-services",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/cds-services/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/.well-known/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/provider/.well-known/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/patient/.well-known/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/health",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/public/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
