@@ -17,7 +17,7 @@ const options = {
       },
     },
     servers: [
-      { url: "http://localhost:3002", description: "Local Development Server", },
+      { url: "https://dev-test-backend.vercel.app", description: "Local Development Server", },
       //{ url: "http://ec2-44-210-43-215.compute-1.amazonaws.com:3002", description: "Production Server", },
     ],
     components: {
