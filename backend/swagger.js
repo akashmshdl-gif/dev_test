@@ -98,7 +98,7 @@ const options = {
       },
     ],
   },
-  apis: ["./routes/*.js"], // Scan route files for Swagger annotations
+  apis: [require("path").join(__dirname, "routes", "*.js")], // Scan route files for Swagger annotations
 };
 
 const swaggerSpec = swaggerJSDoc(options);
