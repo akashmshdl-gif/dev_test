@@ -6,7 +6,6 @@
     "frontend"
   ],
   "scripts": {
-    "build": "npm run build --workspace=eligibilitycheck && npm run build --workspace=epic-smart-frontend"
+    "build": "npm run build --prefix backend && npm run build --prefix frontend"
   }
 }
-
