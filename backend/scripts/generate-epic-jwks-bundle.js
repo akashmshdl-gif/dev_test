@@ -15,13 +15,23 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const dotenv = require('dotenv');
-const { exportJWK } = require('jose');
 
 dotenv.config();
 
 const root = path.join(__dirname, '..');
 
+let joseModulePromise;
+
+async function getJose() {
+  if (!joseModulePromise) {
+    joseModulePromise = import('jose');
+  }
+
+  return joseModulePromise;
+}
+
 async function main() {
+  const { exportJWK } = await getJose();
   const rsaKid =
     process.env.RSA_JWT_KID ||
     process.env.JWT_KID ||

@@ -5,12 +5,21 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { exportJWK } = require('jose');
 const {
   shouldUseEpicStyle,
   formatEpicJwk,
   formatVerboseJwk,
 } = require('./formatEpicJwk.js');
+
+let joseModulePromise;
+
+async function getJose() {
+  if (!joseModulePromise) {
+    joseModulePromise = import('jose');
+  }
+
+  return joseModulePromise;
+}
 
 function resolvePath(baseDir, p) {
   if (!p) return '';
@@ -31,6 +40,7 @@ async function exportJwkFromPem(baseDir, relPath, label) {
       `Could not parse ${label} (${pemPath}): ${e.message}. Use X.509 (BEGIN CERTIFICATE) or SPKI (BEGIN PUBLIC KEY).`
     );
   }
+  const { exportJWK } = await getJose();
   return exportJWK(keyObject);
 }
 
