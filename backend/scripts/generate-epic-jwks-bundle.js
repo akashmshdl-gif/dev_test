@@ -20,18 +20,7 @@ dotenv.config();
 
 const root = path.join(__dirname, '..');
 
-let joseModulePromise;
-
-async function getJose() {
-  if (!joseModulePromise) {
-    joseModulePromise = import('jose');
-  }
-
-  return joseModulePromise;
-}
-
 async function main() {
-  const { exportJWK } = await getJose();
   const rsaKid =
     process.env.RSA_JWT_KID ||
     process.env.JWT_KID ||
@@ -51,8 +40,8 @@ async function main() {
     privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
   });
 
-  const rsaJwkRaw = await exportJWK(crypto.createPublicKey(rsa.publicKey));
-  const ecJwkRaw = await exportJWK(crypto.createPublicKey(ec.publicKey));
+  const rsaJwkRaw = crypto.createPublicKey(rsa.publicKey).export({ format: 'jwk' });
+  const ecJwkRaw = crypto.createPublicKey(ec.publicKey).export({ format: 'jwk' });
 
   const jwks = {
     keys: [

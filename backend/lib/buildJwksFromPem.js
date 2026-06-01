@@ -11,16 +11,6 @@ const {
   formatVerboseJwk,
 } = require('./formatEpicJwk.js');
 
-let joseModulePromise;
-
-async function getJose() {
-  if (!joseModulePromise) {
-    joseModulePromise = import('jose');
-  }
-
-  return joseModulePromise;
-}
-
 function resolvePath(baseDir, p) {
   if (!p) return '';
   return path.isAbsolute(p) ? p : path.join(baseDir, p);
@@ -40,8 +30,7 @@ async function exportJwkFromPem(baseDir, relPath, label) {
       `Could not parse ${label} (${pemPath}): ${e.message}. Use X.509 (BEGIN CERTIFICATE) or SPKI (BEGIN PUBLIC KEY).`
     );
   }
-  const { exportJWK } = await getJose();
-  return exportJWK(keyObject);
+  return keyObject.export({ format: 'jwk' });
 }
 
 function formatOne(raw, kid, alg) {
