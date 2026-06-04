@@ -456,14 +456,6 @@ function PatientDashboard() {
               ]}
             />
 
-            {showClinicalTrialAlertCard ? (
-              <ClinicalTrialMatchCard
-                instanceKey={instanceKey}
-                trialCards={cdsTrialCards}
-                onDismiss={() => setIsClinicalTrialCardDismissed(true)}
-              />
-            ) : null}
-
             {isDataLoading ? (
               <section className="surface full-width-data-card">
                 <p className="section-copy">Loading clinical trial data…</p>
@@ -749,7 +741,12 @@ function PatientDashboard() {
                     key={section.id}
                     type="button"
                     className={`provider-sidebar-link ${selectedSection === section.id ? 'is-active' : ''}`.trim()}
-                    onClick={() => setSelectedSection(section.id)}
+                    onClick={() => {
+                      setSelectedSection(section.id)
+                      if (isClinicalTrialFlowActive) {
+                        navigate(`/patient-dashboard${instanceSearch}`)
+                      }
+                    }}
                   >
                     <span>{section.label}</span>
                     {typeof section.count === 'number' ? (

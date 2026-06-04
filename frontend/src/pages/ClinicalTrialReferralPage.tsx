@@ -99,14 +99,6 @@ export function ClinicalTrialReferralView({ embedded = false }: ClinicalTrialRef
         </div>
 
         {serviceRequest.description ? <div className="trial-referral-note">{serviceRequest.description}</div> : null}
-
-        <button
-          type="button"
-          className="trial-link-button trial-link-button--inline"
-          onClick={() => navigate(`${basePath}${buildClinicalTrialSearch(instanceKey)}`)}
-        >
-          View patient chart
-        </button>
       </section>
 
       {trial.source?.label || trial.source?.url ? (

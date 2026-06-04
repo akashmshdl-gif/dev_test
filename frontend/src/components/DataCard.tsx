@@ -1,6 +1,7 @@
 type DetailRow = {
   label: string
   value: string
+  htmlContent?: string
 }
 
 interface DataCardProps {
@@ -35,7 +36,21 @@ function DataCard({
             {rows.map((row, index) => (
               <tr key={`${row.label}-${row.value}-${index}`}>
                 <td className="table-label">{row.label}</td>
-                <td className="table-value">{row.value}</td>
+                <td className="table-value">
+                  {row.htmlContent ? (
+                    <details className="row-accordion">
+                      <summary className="row-accordion-summary">
+                        <span>{row.value}</span>
+                      </summary>
+                      <div
+                        className="row-accordion-details"
+                        dangerouslySetInnerHTML={{ __html: row.htmlContent }}
+                      />
+                    </details>
+                  ) : (
+                    row.value
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -73,7 +88,21 @@ function DataCard({
               {rows.map((row, index) => (
                 <tr key={`${row.label}-${row.value}-${index}`}>
                   <td className="table-label">{row.label}</td>
-                  <td className="table-value">{row.value}</td>
+                  <td className="table-value">
+                    {row.htmlContent ? (
+                      <details className="row-accordion">
+                        <summary className="row-accordion-summary">
+                          <span>{row.value}</span>
+                        </summary>
+                        <div
+                          className="row-accordion-details"
+                          dangerouslySetInnerHTML={{ __html: row.htmlContent }}
+                        />
+                      </details>
+                    ) : (
+                      row.value
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

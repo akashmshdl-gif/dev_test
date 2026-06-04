@@ -1,6 +1,65 @@
 export type DetailRow = {
   label: string
   value: string
+  htmlContent?: string
+}
+
+function decodeMessedUpUtf8(str: string): string {
+  if (typeof str !== 'string') return str
+
+  const win1252ToBytes: Record<number, number> = {
+    8364: 128, 8218: 130, 402: 131, 8222: 132, 8230: 133, 8224: 134, 8225: 135,
+    710: 136, 8240: 137, 352: 138, 8249: 139, 338: 140, 381: 142, 8216: 145,
+    8217: 146, 8220: 147, 8221: 148, 8226: 149, 8211: 150, 8212: 151, 732: 152,
+    8482: 153, 353: 154, 8250: 155, 339: 156, 382: 158, 376: 159
+  }
+
+  try {
+    const bytes = new Uint8Array([...str].map(c => {
+      const code = c.charCodeAt(0)
+      return win1252ToBytes[code] || (code < 256 ? code : 63)
+    }))
+    return new TextDecoder('utf-8').decode(bytes)
+  } catch (e) {
+    return str
+  }
+}
+
+function extractHtmlContent(resource: Record<string, unknown>): string | undefined {
+  const contentArray = Array.isArray(resource.content) ? resource.content : []
+  for (const entry of contentArray) {
+    if (entry && typeof entry === 'object') {
+      const attachment = (entry as { attachment?: Record<string, unknown> }).attachment
+      if (attachment && typeof attachment === 'object') {
+        const contentType = String(attachment.contentType || '').trim().toLowerCase()
+        if (contentType === 'text/html') {
+          let html: string | undefined = undefined
+          if (typeof attachment.binaryContentText === 'string' && attachment.binaryContentText.trim()) {
+            html = attachment.binaryContentText.trim()
+          } else if (typeof attachment.binaryContent === 'string' && attachment.binaryContent.trim()) {
+            html = attachment.binaryContent.trim()
+          } else if (typeof attachment.content === 'string' && attachment.content.trim()) {
+            try {
+              const base64Str = attachment.content.trim()
+              const decoded = atob(base64Str)
+              try {
+                html = decodeURIComponent(escape(decoded))
+              } catch {
+                html = decoded
+              }
+            } catch (err) {
+              console.error('Error decoding base64 content:', err)
+            }
+          }
+
+          if (html) {
+            return decodeMessedUpUtf8(html)
+          }
+        }
+      }
+    }
+  }
+  return undefined
 }
 
 function pickDisplayOrCode(coding: { display?: string; code?: string } | null) {
@@ -224,7 +283,7 @@ export function getManagingOrganization(resource: Record<string, unknown> | null
 }
 
 export function getConditionRows(conditions: Record<string, unknown>[]): DetailRow[] {
-  return conditions.slice(0, 8).map((condition, index) => {
+  return conditions.map((condition, index) => {
     const conditionLabel =
       getOptionalString(condition.condition_text) || getOptionalCodeableConceptText(condition.code)
     const conditionCodeDetails = getConditionCodeDetails(condition)
@@ -246,7 +305,7 @@ export function getConditionRows(conditions: Record<string, unknown>[]): DetailR
 }
 
 export function getLabRows(labs: Record<string, unknown>[]): DetailRow[] {
-  return labs.slice(0, 8).map((lab, index) => ({
+  return labs.map((lab, index) => ({
     label: getCodeableConceptText(lab.code) || `Lab ${index + 1}`,
     value:
       compactParts([
@@ -258,7 +317,7 @@ export function getLabRows(labs: Record<string, unknown>[]): DetailRow[] {
 }
 
 export function getMedicationRows(medications: Record<string, unknown>[]): DetailRow[] {
-  return medications.slice(0, 8).map((medication, index) => {
+  return medications.map((medication, index) => {
     const medicationLabel =
       (typeof medication.medicationCodeableConcept === 'object' && medication.medicationCodeableConcept
         ? getCodeableConceptText(medication.medicationCodeableConcept)
@@ -292,7 +351,7 @@ export function getMedicationRows(medications: Record<string, unknown>[]): Detai
 }
 
 export function getDocumentReferenceRows(documentReferences: Record<string, unknown>[]): DetailRow[] {
-  return documentReferences.slice(0, 8).map((documentReference, index) => {
+  return documentReferences.map((documentReference, index) => {
     const typeLabel =
       (typeof documentReference.type === 'object' && documentReference.type
         ? getCodeableConceptText(documentReference.type)
@@ -329,12 +388,13 @@ export function getDocumentReferenceRows(documentReferences: Record<string, unkn
               : null,
           attachmentContentType,
         ]) || 'No additional document details returned.',
+      htmlContent: extractHtmlContent(documentReference),
     }
   })
 }
 
 export function getImagingObservationRows(observations: Record<string, unknown>[]): DetailRow[] {
-  return observations.slice(0, 8).map((observation, index) => ({
+  return observations.map((observation, index) => ({
     label: getCodeableConceptText(observation.code) || `Imaging observation ${index + 1}`,
     value:
       compactParts([
@@ -346,7 +406,7 @@ export function getImagingObservationRows(observations: Record<string, unknown>[
 }
 
 export function getImagingResultRows(results: Record<string, unknown>[]): DetailRow[] {
-  return results.slice(0, 8).map((result, index) => {
+  return results.map((result, index) => {
     const category = Array.isArray(result.category)
       ? result.category.find((entry) => typeof entry === 'object' && entry)
       : null
@@ -362,6 +422,7 @@ export function getImagingResultRows(results: Record<string, unknown>[]): Detail
           category && typeof category === 'object' ? getOptionalCodeableConceptText(category) : null,
           typeof result.date === 'string' ? result.date : null,
         ]) || 'No additional imaging-result details returned.',
+      htmlContent: extractHtmlContent(result),
     }
   })
 }

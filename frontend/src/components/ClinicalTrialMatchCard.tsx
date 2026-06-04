@@ -41,18 +41,6 @@ function IconMegaphone() {
   )
 }
 
-function IconTarget() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="2.25" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 3V6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M12 18V21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M3 12H6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M18 12H21" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 function IconClipboard() {
   return (
@@ -180,16 +168,6 @@ function ClinicalTrialMatchCard({ instanceKey, trialCards, onDismiss }: Clinical
       {isExpanded ? (
         <>
           <div className="trial-alert-card-body">
-            <section className="trial-alert-best-match">
-              <span className="trial-alert-section-icon trial-alert-section-icon--plain" aria-hidden="true">
-                <IconTarget />
-              </span>
-              <div className="trial-alert-best-match-copy">
-                <p className="trial-alert-best-match-title">{bestMatch.summary}</p>
-                {bestMatch.detail ? <p className="trial-alert-best-match-score">{bestMatch.detail}</p> : null}
-              </div>
-            </section>
-
             {bestMatch.suggestions?.length ? (
               <section className="trial-alert-section">
                 <span className="trial-alert-section-icon" aria-hidden="true">
