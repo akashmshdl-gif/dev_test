@@ -1327,7 +1327,7 @@ function ProviderDashboard() {
       <header className="dashboard-header provider-topbar">
         <button type="button" className="brand-home-button brand-lockup" onClick={handleDashboardHome}>
           <div className="brand-mark brand-mark-ulalao">
-            <UlaloLogo />
+            {/* <UlaloLogo /> */}
           </div>
         </button>
 
