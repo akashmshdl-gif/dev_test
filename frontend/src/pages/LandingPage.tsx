@@ -2,7 +2,79 @@ import { useEffect, useState } from 'react'
 import { getPatientLoginUrl, getProviderLoginUrl } from '../api/authService'
 
 const SMART_LAUNCH_URL = 'https://dev-test-backend.vercel.app/?iss=https%3A%2F%2Flaunch.smarthealthit.org%2Fv%2Fr4%2Ffhir&launch=WzAsIiIsIiIsIkFVVE8iLDAsMCwwLCIiLCJodHRwczovL2Rldi10ZXN0LWJhY2tlbmQudmVyY2VsLmFwcC9hcGkvYXV0aC9zbWFydC1jYWxsYmFjayIsIjdhMGFiMTA4LTJkNWUtNDQzNy1iZjczLWIyYmUxZTU0MDEwNSIsInVXdHJ2aU5KOTl0bE96Q0kzbjQzS2tHNmEzSEo1K3d6aitDSjBGSUI5U2lJbi9PU1UyTHp1OGh5NEFTTVkvL3ZiMkFNbDNxSGhRNXJlZFZCanVPQXd3PT0iLCIiLCJodHRwczovL2FwcGVwaWMudGhlZGV2bG9naXguY29tL3Byb3ZpZGVyLy53ZWxsLWtub3duL2p3a3MuanNvbiIsIntcbiAgXCJrZXlzXCI6IFtcbiAgICB7XG4gICAgICBcImt0eVwiOiBcIlJTQVwiLFxuICAgICAgXCJraWRcIjogXCJjYjExM2IwMC1kZDAwLTQzY2MtOGQ0Yy01YjI0YWVkZDVhMWRcIixcbiAgICAgIFwidXNlXCI6IFwic2lnXCIsXG4gICAgICBcImFsZ1wiOiBcIlJTMzg0XCIsXG4gICAgICBcIm5cIjogXCJ6VHRnM19feEtUODYtaGs1SWMzRkVENG1JNUhSTWRONzI2N2JXbUdJeGJ0SWFJZ0hxbjhWcHJfUmo5XzdrMV8zUGtOYjFzUWJFRUI3NXEtV1puRkpRd1ZfWUlFalZzQTREMThGSGRUR3BBdEZqaXdIczd5OTZPaC12N2pPMXA1dkN2ano3QWtBMDFLQy15dVRiWERxbWxLSTFuNkNjWTRZOEJTRTNMQW50bkdVYUpZVi1uTEdZQUp1S3FKS0tiQVlFVDM5WFVTT1EwQU9LSkpXZlFUWGpseW5pcm5Ec3JvX0wzdkk1d05zakFfb0FIRFZBNS1NM21DQmNBZWNLaHNSanY2RmxTbDBXWm5uNzJxT2ZwcUVVTVlERkV4emtSV1p1YnFxcGR5VWp6VkpIcElGWHN6Q2ZKY0NyeFpzNHB0WGJNWGNOUFU2UFFOYUd1VU9fTlg0Z3dcIixcbiAgICAgIFwiZVwiOiBcIkFRQUJcIlxuICAgIH1cbiAgXVxufSIsMiwyLCIiXQ'
-
+function UlaloLogo() {
+  return (
+    <svg
+      className="ulalo-logo"
+      viewBox="0 0 125 34"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M79.212 26.9735L68.2991 2.72913L61.884 2.74061L74.284 32.3622L79.212 26.9735Z"
+        fill="url(#paint0_linear_landing_page)"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M50.9329 26.8459L61.6871 2.72913L68.1022 2.74061L55.3841 32.2982L50.9329 26.8459Z"
+        fill="url(#paint1_linear_landing_page)"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M50.9329 26.8292L55.3841 32.2817H74.143L71.8638 26.8292H50.9329Z"
+        fill="url(#paint2_linear_landing_page)"
+      />
+      <path
+        d="M34.9073 29.3369H45.2989V32.4974H31.0318V2.72913H34.9073V29.3369ZM5.52762 2.72913V21.5638C5.52762 24.2118 6.17353 26.1764 7.46539 27.4576C8.75724 28.739 10.553 29.3796 12.8528 29.3796C15.1241 29.3796 16.9057 28.739 18.1976 27.4576C19.4895 26.1764 20.1354 24.2118 20.1354 21.5638V2.72913H24.0109V21.5211C24.0109 23.9982 23.514 26.0839 22.5203 27.778C21.5266 29.4721 20.185 30.732 18.4957 31.5577C16.8064 32.3836 14.9112 32.7963 12.8102 32.7963C10.7092 32.7963 8.81399 32.3836 7.12468 31.5577C5.43531 30.732 4.10093 29.4721 3.12138 27.778C2.14186 26.0839 1.6521 23.9982 1.6521 21.5211V2.72913H5.52762Z"
+        fill="white"
+      />
+      <path
+        d="M102.702 16.7926C102.702 11.8953 103.496 8.07279 105.087 5.32515C106.676 2.57755 109.459 1.20374 113.434 1.20374C117.38 1.20374 120.148 2.57755 121.738 5.32515C123.329 8.07279 124.123 11.8953 124.123 16.7926C124.123 21.7753 123.329 25.6476 121.738 28.4095C120.148 31.1713 117.38 32.5522 113.434 32.5522C109.459 32.5522 106.676 31.1713 105.087 28.4095C103.496 25.6476 102.702 21.7753 102.702 16.7926ZM120.29 16.7926C120.29 14.3154 120.127 12.2156 119.801 10.493C119.474 8.77034 118.807 7.38231 117.799 6.32881C116.791 5.27535 115.336 4.7486 113.434 4.7486C111.503 4.7486 110.034 5.27535 109.026 6.32881C108.018 7.38234 107.351 8.77034 107.024 10.493C106.698 12.2156 106.534 14.3154 106.534 16.7926C106.534 19.3551 106.698 21.5048 107.024 23.2416C107.351 24.9785 108.018 26.3736 109.026 27.4271C110.034 28.4806 111.503 29.0073 113.434 29.0073C115.336 29.0073 116.791 28.4806 117.799 27.4271C118.807 26.3736 119.474 24.9785 119.801 23.2416C120.127 21.5048 120.29 19.3551 120.29 16.7926ZM88.2702 29.3917H98.6618V32.5522H84.3947V2.78397H88.2702V29.3917Z"
+        fill="white"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_landing_page"
+          x1="70.5479"
+          y1="32.3622"
+          x2="70.5479"
+          y2="2.72913"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#8DF3B2" />
+          <stop offset="1" stopColor="#1BE866" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_landing_page"
+          x1="59.5174"
+          y1="32.2982"
+          x2="59.5174"
+          y2="2.72913"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#1BE866" />
+          <stop offset="1" stopColor="#8DF3B2" />
+        </linearGradient>
+        <linearGradient
+          id="paint2_linear_landing_page"
+          x1="50.9329"
+          y1="26.8292"
+          x2="74.143"
+          y2="26.8292"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#8DF3B2" />
+          <stop offset="1" stopColor="#1BE866" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
 function LandingPage() {
   const [loadingAuthType, setLoadingAuthType] = useState<'patient' | 'provider' | null>(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -44,7 +116,7 @@ function LandingPage() {
     <main className="landing-marketing-shell">
       <header className="landing-marketing-header">
         <div className="landing-marketing-brand">
-          {/* <UlaloLogo /> */}
+          <UlaloLogo />
         </div>
 
         <div className="landing-marketing-header-right">
