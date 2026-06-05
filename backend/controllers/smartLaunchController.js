@@ -165,12 +165,10 @@ const smartLaunch = async (req, res) => {
       process.env.PROVIDER_CLIENT_ID ||
       process.env.EPIC_CLIENT_ID;
     const clientSecret =
-      process.env.SMART_LAUNCH_CLIENT_SECRET ||
+      // process.env.SMART_LAUNCH_CLIENT_SECRET ||
       process.env.PROVIDER_CLIENT_SECRET ||
       process.env.EPIC_CLIENT_SECRET;
-    const clientSecretSource = process.env.SMART_LAUNCH_CLIENT_SECRET
-      ? "SMART_LAUNCH_CLIENT_SECRET"
-      : process.env.PROVIDER_CLIENT_SECRET
+    const clientSecretSource = process.env.PROVIDER_CLIENT_SECRET
         ? "PROVIDER_CLIENT_SECRET"
         : process.env.EPIC_CLIENT_SECRET
           ? "EPIC_CLIENT_SECRET"
